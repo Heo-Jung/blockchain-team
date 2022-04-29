@@ -260,6 +260,7 @@ $(document).ready(function() {
 		let howMany = $("#howMany").val();
 		console.log("howMany: " , howMany);
 		
+		
 		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
 		contract.addProStru(account, from, howMany, function(err, result) {
