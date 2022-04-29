@@ -235,9 +235,41 @@ $(document).ready(function() {
 			} // end of for
 		}); 
  		$('#myTable').append(  '</table>' );
-
     }
     
+	function send (){
+		if (DEBUG) console.log('send...');
+	
+		let fromaddress = $("#from").val();	
+		let toaddress = productRegistryContractAddress;	
+		let amount = $("#howMany").val();
+		
+		web3.eth.getTransactionCount(fromaddress, (err, txCount) => {
+			// Build the transaction
+			const txObject = {
+			nonce: web3.utils.toHex(txCount),
+			to: toaddress,
+			value: web3.utils.toHex(web3.utils.toWei(amount, 'ether')),
+			gasLimit: web3.utils.toHex(21000),
+			gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+		}
+	
+		 // Sign the transaction
+		 const tx = new ethereumjs.Tx(txObject);
+		 tx.sign(privateKey);
+	
+		 const serializedTx = tx.serialize()
+		 const raw = '0x' + serializedTx.toString('hex')
+	
+		 // Broadcast the transaction
+		 web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+		console.log('txHash:', txHash)
+		  // Now go check etherscan to see the transaction!
+		  })
+		})  // end of txbuilder
+	}
+
+
     async function itemUploadButton() {
         // if ($('#documentForUpload')[0].files.length == 0)
             // return showError("Please select a file to upload.");
@@ -250,37 +282,7 @@ $(document).ready(function() {
 			}
 		if (typeof web3 === 'undefined')
                 return showError("Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.");
-			
-		let account = productRegistryContractAddress 
-		console.log("my account " , account);
-		
-		let from = $("#from").val();
-		console.log("후원: " , from);
-
-		let howMany = $("#howMany").val();
-		console.log("howMany: " , howMany);
-		
-		
-		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
-
-		contract.addProStru(account, from, howMany, function(err, result) {
-			if (err)
-				return showError("Smart contract call failed: " + err);
-			showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
-		}); 
-		
-    }
-
-    function verifyDocument() {
-		
-		
-		if (typeof web3 === 'undefined')
-                return showError("Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.");
-			
-		let account = selectedAddress 
-		console.log("my account " , account);
-		
-
- 
+	
+		send();
     }
 });
