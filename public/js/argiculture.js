@@ -229,34 +229,11 @@ $(document).ready(function() {
 					console.log("timestamp: " + timestamp);
 					console.log("timestamp: " + strArray[3]*1000);
 
-					// let row = table.insertRow();
-					// let cell1 = row.insertCell(0);
-					// let cell2 = row.insertCell(1);
-					// let cell3 = row.insertCell(2);
-					// let cell4 = row.insertCell(3);
-					// cell1.innerHTML = strArray[0];
-					// cell2.innerHTML = strArray[1];
-					// cell3.innerHTML = strArray[2];
-					// cell4.style.width ="60%";
-					// cell4.innerHTML = timestamp;
-
 					$('#myTable').append( '<tr><td>' + strArray[0] + ", "+ strArray[1] + ", "+ strArray[2] + ", "+ timestamp  + '</td></tr>' );
 
 				})  // end of get
-
 			} // end of for
-
 		}); 
-
-
-		
-
-		
-
-		// for(i=0;i<3;i++){
-		// 	$('#myTable').append( '<tr><td>' + 'result' +  i + '</td></tr>' );
-		// }		
-
  		$('#myTable').append(  '</table>' );
 
     }
@@ -274,17 +251,14 @@ $(document).ready(function() {
 		if (typeof web3 === 'undefined')
                 return showError("Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.");
 			
-		let account = selectedAddress 
+		let account = productRegistryContractAddress 
 		console.log("my account " , account);
 		
-		let howMany = $("#pronumber").val();
-		console.log("howMany " , howMany);
+		let from = $("#from").val();
+		console.log("후원: " , from);
 
-		let productName = $("#proname").val();
-		console.log("productName " , productName);
-
-		let whereIs = $("#proloc").val();
-		console.log("whereIs " , whereIs);
+		let howMany = $("#howMany").val();
+		console.log("howMany: " , howMany);
 		
 		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
