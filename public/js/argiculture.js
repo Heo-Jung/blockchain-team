@@ -238,8 +238,6 @@ $(document).ready(function() {
     }
     
 	function send (){
-		if (DEBUG) console.log('send...');
-	
 		let fromaddress = $("#from").val();	
 		let toaddress = productRegistryContractAddress;	
 		let amount = $("#howMany").val();
@@ -255,14 +253,14 @@ $(document).ready(function() {
 		}
 	
 		 // Sign the transaction
-		 const tx = new ethereumjs.Tx(txObject);
-		 tx.sign(privateKey);
+		const tx = new ethereumjs.Tx(txObject);
+		tx.sign(privateKey);
 	
-		 const serializedTx = tx.serialize()
-		 const raw = '0x' + serializedTx.toString('hex')
+		const serializedTx = tx.serialize()
+		const raw = '0x' + serializedTx.toString('hex')
 	
 		 // Broadcast the transaction
-		 web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+		web3.eth.sendSignedTransaction(raw, (err, txHash) => {
 		console.log('txHash:', txHash)
 		  // Now go check etherscan to see the transaction!
 		  })
