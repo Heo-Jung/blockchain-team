@@ -262,7 +262,7 @@ $(document).ready(function() {
 		
 		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
-		contract.addProStru(howMany, productName, whereIs, function(err, result) {
+		contract.addProStru(account, from, howMany, function(err, result) {
 			if (err)
 				return showError("Smart contract call failed: " + err);
 			showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
